@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,7 +27,14 @@ public class Service {
     }
 
     public List<Item> searchItems(String term) {
-        logger.info(term);
         return repo.findByNameContaining(term);
+    }
+
+    @Transactional
+    public void createItems(int n) {
+        for (int i = 1; i < n; i++) {
+            repo.save(new Item("newItemsT" + i));
+            if (i == 5) throw new RuntimeException();
+        }
     }
 }
