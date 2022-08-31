@@ -1,10 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.Item;
-
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
@@ -13,7 +10,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RepoTest {
 
@@ -28,11 +24,12 @@ class RepoTest {
     }
 
     @Test
-    public void shouldReturnItem() {
+    public void shouldReturnItemsContainingDesk() {
         List<Item> returned = repo.findByNameContaining("Desk");
         List<Item> expected = new ArrayList<>();
         expected.add(new Item("Desk"));
         expected.add(new Item("Computer Desk"));
-        assertEquals(expected, returned);
+        assertEquals(expected.get(0).getName(), returned.get(0).getName());
+        assertEquals(expected.get(1).getName(), returned.get(1).getName());
     }
 }
