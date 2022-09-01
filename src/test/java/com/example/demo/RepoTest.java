@@ -30,6 +30,7 @@ class RepoTest {
         List<Item> expected = new ArrayList<>();
         expected.add(new Item("Desk"));
         expected.add(new Item("Computer Desk"));
+        assertEquals(2, returned.size());
         assertEquals(expected.get(0).getName(), returned.get(0).getName());
         assertEquals(expected.get(1).getName(), returned.get(1).getName());
     }
