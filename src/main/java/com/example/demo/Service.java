@@ -27,7 +27,7 @@ public class Service {
     }
 
     public List<Item> searchItems(String term) {
-        return repo.findByNameContaining(term);
+        return repo.findByNameContainingIgnoreCase(term);
     }
 
     @Transactional

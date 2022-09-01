@@ -18,18 +18,26 @@ class RepoTest {
 
     @BeforeAll
     void setUp() {
-        repo.save(new Item("Table"));
-        repo.save(new Item("Desk"));
-        repo.save(new Item("Computer Desk"));
+        repo.saveAllAndFlush(List.of(
+        new Item("Table"),
+        new Item("Desk"),
+        new Item("Computer Desk")));
     }
 
     @Test
-    public void shouldReturnItemsContainingDesk() {
-        List<Item> returned = repo.findByNameContaining("Desk");
+    public void shouldRetrieveTwoItemsContainingDesk() {
+        List<Item> returned = repo.findByNameContainingIgnoreCase("desk");
         List<Item> expected = new ArrayList<>();
         expected.add(new Item("Desk"));
         expected.add(new Item("Computer Desk"));
         assertEquals(expected.get(0).getName(), returned.get(0).getName());
         assertEquals(expected.get(1).getName(), returned.get(1).getName());
     }
+
+    @Test
+    public void shouldReturn0ItemsContainingChair() {
+        List<Item> returned = repo.findByNameContainingIgnoreCase("chair");
+        assertTrue(returned.isEmpty());
+    }
+
 }

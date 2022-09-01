@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Repo extends JpaRepository<Item, Long> {
 
-    List<Item> findByNameContaining(String term);
+    List<Item> findByNameContainingIgnoreCase(String term);
 }
