@@ -5,20 +5,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
-@org.springframework.stereotype.Service
-public class Service {
+@Service
+public class Services {
 
     Repo repo;
 
-    Logger logger = LoggerFactory.getLogger(Service.class);
+    Logger logger = LoggerFactory.getLogger(Services.class);
 
-    public Service(Repo repo) {
+    public Services(Repo repo) {
         this.repo = repo;
     }
 
