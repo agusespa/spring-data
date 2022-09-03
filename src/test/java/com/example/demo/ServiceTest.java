@@ -1,16 +1,19 @@
 package com.example.demo;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class ServiceTest {
 
     @Mock
@@ -30,7 +33,8 @@ class ServiceTest {
 
         List<Item> fetchedList = service.searchItems("desk");
 
-        assertEquals(fetchedList, mockedList);
+        verify(repo).findByNameContainingIgnoreCase("desk");
+        assertEquals(mockedList, fetchedList);
     }
 
 }
