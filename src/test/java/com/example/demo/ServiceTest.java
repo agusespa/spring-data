@@ -21,16 +21,16 @@ class ServiceTest {
 
     @Test
     void shouldReturnSearchItemsContainingDesk() {
-        List mockedList = List.of(
+        List<Item> mockedList = List.of(
                 new Item("Table"),
                 new Item("Desk"),
                 new Item("Computer Desk"));
 
         when(repo.findByNameContainingIgnoreCase("desk")).thenReturn(mockedList);
 
-        List fetchedList = service.searchItems("desk");
+        List<Item> fetchedList = service.searchItems("desk");
 
-        assertTrue(fetchedList.equals(mockedList));
+        assertEquals(fetchedList, mockedList);
     }
 
 }
