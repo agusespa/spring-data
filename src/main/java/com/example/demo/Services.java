@@ -30,11 +30,7 @@ public class Services {
         return repo.findByNameContainingIgnoreCase(term);
     }
 
-    @Transactional
-    public void createItems(int n) {
-        for (int i = 1; i < n; i++) {
-            repo.save(new Item("newItemsT" + i));
-            if (i == 5) throw new RuntimeException();
-        }
+    public Item createItem(Item item) {
+        return repo.save(item);
     }
 }

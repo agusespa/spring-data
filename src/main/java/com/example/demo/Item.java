@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import javax.validation.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class Item {
                     @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })
     String id;
 
+    @NotBlank
     String name;
 
     public Item() {
@@ -43,6 +45,14 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override

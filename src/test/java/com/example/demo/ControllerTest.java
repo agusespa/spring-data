@@ -1,18 +1,22 @@
 package com.example.demo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(Controller.class)
 class ControllerTest {
@@ -33,5 +37,25 @@ class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[*].name").exists())
                 .andExpect(jsonPath("$.[1].name").value("Computer Desk"));
+    }
+
+    @Test
+    void shouldThrowValidationException() throws Exception {
+        mockMvc.perform(post("/api/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\": \"\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnNewItem() throws Exception {
+        when(services.createItem(any(Item.class))).thenReturn(new Item("Desk"));
+        mockMvc.perform(post("/api/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\": \"Desk\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("Desk"));
+
+        verify(services, times(1)).createItem(any());
     }
 }
