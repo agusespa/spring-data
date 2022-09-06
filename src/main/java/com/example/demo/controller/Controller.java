@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("/api")
 public class Controller {
 
@@ -40,12 +42,13 @@ public class Controller {
     }
 
     @GetMapping("/items/search")
-    ResponseEntity<List<ItemResponse>> searchItems(@Valid @RequestParam @NotBlank String term) {
+    ResponseEntity<List<ItemResponse>> searchItems(@RequestParam @NotBlank String term) {
         return ResponseEntity.ok(service.searchItems(term));
     }
 
     @PostMapping("/items")
     ResponseEntity<ItemResponse> createItem(@Valid @RequestBody ItemRequest item) {
+        System.out.println("reached controoler");
         ItemResponse savedItem = service.createItem(item);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

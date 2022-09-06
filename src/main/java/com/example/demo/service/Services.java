@@ -50,6 +50,7 @@ public class Services {
     }
 
     public ItemResponse createItem(ItemRequest item) {
+        System.out.println("reached service");
         Item newItem = new Item(item.getName());
         Item savedItem = repo.save(newItem);
         return new ItemResponse(savedItem.getId(), savedItem.getName());
