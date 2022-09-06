@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.response.ItemResponse;
 import com.example.demo.entity.Item;
 import com.example.demo.repository.Repo;
 import org.junit.jupiter.api.Test;
@@ -32,10 +33,14 @@ class ServiceTest {
 
         when(repo.findByNameContainingIgnoreCase("desk")).thenReturn(mockedList);
 
-        List<Item> fetchedList = service.searchItems("desk");
+        List<ItemResponse> fetchedList = service.searchItems("desk");
 
         verify(repo).findByNameContainingIgnoreCase("desk");
-        assertEquals(mockedList, fetchedList);
+
+        for (int i = 0; i < mockedList.size(); i++) {
+            assertEquals(mockedList.get(i).getId(), fetchedList.get(i).getId());
+            assertEquals(mockedList.get(i).getName(), fetchedList.get(i).getName());
+        }
     }
 
 }
