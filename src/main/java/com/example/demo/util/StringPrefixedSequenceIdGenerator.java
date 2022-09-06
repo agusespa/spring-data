@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.util;
 
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
