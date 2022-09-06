@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.request.ItemRequest;
 import com.example.demo.dto.response.ItemResponse;
-import com.example.demo.entity.Item;
 import com.example.demo.service.Services;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +35,11 @@ class ControllerTest {
 
         mockMvc.perform(get("/api/items/search?term=desk"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[*].id").exists())
-                .andExpect(jsonPath("$.[*].name").exists())
-                .andExpect(jsonPath("$.[1].name").value("Computer Desk"));
+                .andExpect(jsonPath("$[*].id").exists())
+                .andExpect(jsonPath("$[*].name").exists())
+                .andExpect(jsonPath("$[1].name").value("Computer Desk"));
+
+        verify(services, times(1)).searchItems(any());
     }
 
     @Test
@@ -46,6 +47,8 @@ class ControllerTest {
         mockMvc.perform(get("/api/items/search?term="))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("searchItems.term: must not be blank"));
+
+        verify(services, times(0)).createItem(any());
     }
 
     @Test
@@ -55,11 +58,14 @@ class ControllerTest {
                 .content("{\"name\": \"\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("{\"name\": \"must not be blank\"}"));
+
+        verify(services, times(0)).createItem(any());
     }
 
     @Test
     void shouldReturnNewItem() throws Exception {
         when(services.createItem(any(ItemRequest.class))).thenReturn(new ItemResponse("b1", "Desk"));
+
         mockMvc.perform(post("/api/items")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\": \"Desk\"}"))
