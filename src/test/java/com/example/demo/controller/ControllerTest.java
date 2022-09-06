@@ -42,17 +42,19 @@ class ControllerTest {
     }
 
     @Test
-    void shouldThrowParamValidationException() throws Exception {
+    void shouldRespondWithBadParamErrorWhenGivenEmptySearchParam() throws Exception {
         mockMvc.perform(get("/api/items/search?term="))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("searchItems.term: must not be blank"));
     }
 
     @Test
-    void shouldThrowValidationException() throws Exception {
+    void shouldRespondWithBadMethodArgumentErrorWhenGivenEmptyNameField() throws Exception {
         mockMvc.perform(post("/api/items")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\": \"\"}"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("{\"name\": \"must not be blank\"}"));
     }
 
     @Test
