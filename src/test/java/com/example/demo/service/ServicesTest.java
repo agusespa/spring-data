@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ServiceTest {
+class ServicesTest {
 
     @Mock
     Repo repo;
