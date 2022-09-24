@@ -48,7 +48,6 @@ public class Controller {
 
     @PostMapping("/items")
     ResponseEntity<ItemResponse> createItem(@Valid @RequestBody ItemRequest item) {
-        System.out.println("reached controoler");
         ItemResponse savedItem = service.createItem(item);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
