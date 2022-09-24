@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 public class Services {
 
-    Repo repo;
+    final Repo repo;
 
-    Logger logger = LoggerFactory.getLogger(Services.class);
+    final Logger logger = LoggerFactory.getLogger(Services.class);
 
     public Services(Repo repo) {
         this.repo = repo;

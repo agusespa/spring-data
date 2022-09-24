@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class Controller {
 
-    Services service;
+    final Services service;
 
     public Controller(Services service) {
         this.service = service;
