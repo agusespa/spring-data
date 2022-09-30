@@ -4,9 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -40,12 +37,18 @@ class ItemTest {
     }
 
     @Test
-    void hashcodeShouldPreventAddingDuplicatedObject() {
+    void hashCodeShouldReturnSameHashForEqualObjects() {
         Item testedItem = new Item("Chair");
         testedItem.setId("B_58");
 
-        Set<Item> set = new HashSet<>();
-        set.add(referenceItem);
-        assertFalse(set.add(testedItem));
+        assertEquals(referenceItem.hashCode(), testedItem.hashCode());
+    }
+
+    @Test
+    void hashCodeShouldReturnDifferentHashForObjectsWithSameNameAndDifferentId() {
+        Item testedItem = new Item("Chair");
+        testedItem.setId("B_53");
+
+        assertNotEquals(referenceItem.hashCode(), testedItem.hashCode());
     }
 }
